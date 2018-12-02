@@ -29,7 +29,7 @@ SodokuBoard * create_sodoku_board(FILE *fp) {
             col = 0;
             printf("\n");
         }
-        else 
+        else
         {
             printf(" %c", ch);
             sudokuBoard->board[row][col] = atoi(&ch);
@@ -86,12 +86,10 @@ void write_board(SodokuBoard * board, FILE * stream) {
     {
         for(j = 0; j < BOARD_SIZE; j++)
         {
-            sprintf(dest, "%d", board->board[i][j]);
-            fputs(dest, stream);
-
-            if (j == BOARD_SIZE - 1)
-                fputc(' ', stream);
+            printf("%d ", board->board[i][j]);
+            fprintf(stream, "%d ", board->board[i][j]);
         }
-        fputc('\n', stream);
-    }
+        fprintf(stream, "\n");
+        printf("\n");
+      }
 }
