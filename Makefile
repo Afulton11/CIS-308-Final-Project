@@ -1,12 +1,9 @@
-AR = ar
-AFLAGS = rcs
 CC = gcc
-LIBS = libString.a
-OBJS = sodoku.o board.o
+OBJS = sodoku.o board.o generator.o random.o unused.o
 
 all: sodoku
 
-sodoku: $(OBJS) $(LIBOBJS) sodoku.c
+sodoku: $(OBJS) sodoku.c
 	$(CC) -o sodoku $(OBJS)
 
 clean:

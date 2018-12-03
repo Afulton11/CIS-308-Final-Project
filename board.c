@@ -2,22 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-MiniBoard * create_mini_board(SodokuBoard * sodokuBoard, int row, int col) {
+MiniBoard * create_mini_board(SudokuBoard * SudokuBoard, int row, int col) {
     MiniBoard * miniBoard = malloc(sizeof(MiniBoard));
     miniBoard->row = row;
     miniBoard->col = col;
 
     for (int r = 0; r < BOARD_SIZE / 3; r++) {
         for (int c = 0; c < BOARD_SIZE / 3; c++) {
-            miniBoard->board[r][c] = &(sodokuBoard->board[r + row][c + col]);
+            miniBoard->board[r][c] = &(SudokuBoard->board[r + row][c + col]);
         }
     }
 
     return miniBoard;
 }
 
-SodokuBoard * create_sodoku_board(FILE *fp) {
-    SodokuBoard *sudokuBoard = malloc(sizeof(SodokuBoard));
+SudokuBoard * create_sodoku_board(FILE *fp) {
+    SudokuBoard *sudokuBoard = malloc(sizeof(SudokuBoard));
     char ch;
     int row = 0, col = 0;
 
@@ -57,7 +57,7 @@ int verify_mini_board(int number, MiniBoard * board) {
     }
     return TRUE;
 }
-int verify_row(int number, int row, SodokuBoard * board) {
+int verify_row(int number, int row, SudokuBoard * board) {
     for(int i = 0; i < BOARD_SIZE; i++)
     {
         if(number == board -> board[row][i])
@@ -67,7 +67,7 @@ int verify_row(int number, int row, SodokuBoard * board) {
     }
     return TRUE;
 }
-int verify_Column(int number, int column, SodokuBoard * board) {
+int verify_Column(int number, int column, SudokuBoard * board) {
     for(int i = 0; i < BOARD_SIZE; i++)
     {
         if(number == board -> board[i][column])
@@ -78,7 +78,7 @@ int verify_Column(int number, int column, SodokuBoard * board) {
     return TRUE;
 }
 
-void write_board(SodokuBoard * board, FILE * stream) {
+void write_board(SudokuBoard * board, FILE * stream) {
     char* dest;
     int i, j;
 

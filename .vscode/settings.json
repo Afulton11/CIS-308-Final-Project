@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "generator.h": "c",
+        "random.h": "c"
+    }
+}

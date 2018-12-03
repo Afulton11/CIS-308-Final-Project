@@ -1,12 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#define FALSE 0
-#define TRUE 1
-
 #define BOARD_SIZE 9
 #define BLANK 0
-#define IS_VALUE_VALID(number) number > 0 && number < 10
 #define IS_BLANK(number) number == BLANK
 #include <stdio.h>
 
@@ -18,23 +14,26 @@
  * 
  **/ 
 
+typedef enum Boolean {
+    FALSE = 0,
+    TRUE = 1,
+} Boolean;
 
 typedef struct MiniBoard {
     int row, col;
     int* board[BOARD_SIZE / 3][BOARD_SIZE / 3];
 } MiniBoard;
 
-typedef struct SodokuBoard
-{
+typedef struct SudokuBoard {
     int board[BOARD_SIZE][BOARD_SIZE];
-} SodokuBoard;
+} SudokuBoard;
 
-MiniBoard * create_mini_board(SodokuBoard * board, int row, int col);
-SodokuBoard * create_sodoku_board(FILE *fp);
+MiniBoard * create_mini_board(SudokuBoard * board, int row, int col);
+SudokuBoard * create_sodoku_board(FILE *fp);
 
 int verify_mini_board(int number, MiniBoard *);
-int verify_row(int number, int row, SodokuBoard *);
-int verify_Column(int number, int column, SodokuBoard *);
-void write_board(SodokuBoard *, FILE *);
+int verify_row(int number, int row, SudokuBoard *);
+int verify_Column(int number, int column, SudokuBoard *);
+void write_board(SudokuBoard *, FILE *);
 
 #endif // BOARD_H
