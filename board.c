@@ -7,8 +7,9 @@ MiniBoard * create_mini_board(SudokuBoard * SudokuBoard, int row, int col) {
     miniBoard->row = row;
     miniBoard->col = col;
 
-    for (int r = 0; r < BOARD_SIZE / 3; r++) {
-        for (int c = 0; c < BOARD_SIZE / 3; c++) {
+
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 3; c++) {
             miniBoard->board[r][c] = &(SudokuBoard->board[r + row][c + col]);
         }
     }
@@ -29,7 +30,7 @@ SudokuBoard * create_sodoku_board(FILE *fp) {
             col = 0;
             printf("\n");
         }
-        else
+        else if (ch != ' ')
         {
             printf(" %c", ch);
             sudokuBoard->board[row][col] = atoi(&ch);
@@ -49,7 +50,7 @@ int verify_mini_board(int number, MiniBoard * board) {
     {
         for(j = 0; j < BOARD_SIZE / 3; j++)
         {
-            if(number == *(board -> board[i][j]))
+            if(number == *(board->board[i][j]))
             {
                 return FALSE;
             }

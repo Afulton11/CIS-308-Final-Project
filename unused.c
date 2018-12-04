@@ -2,28 +2,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int get_used_number_index(UnusedNumberList * self, int index) {
+int get_number_index(UnusedNumberList * self, int index) {
     if (index >= self->numbersLength)
         printf("[DEBUG]: Attempted to access an index too large for our currently unused number list! [%d]:[%d]\n", index, self->numbersLength);
 
     int actualIndex = 0;
 
     while (index >= 0) {
-        for (actualIndex = 0; actualIndex < self->_actualLength; actualIndex++) {
-            if (self->_usedNumbers[actualIndex] != self->_numbers[actualIndex])
-                index--;
-        }
+        if (self->_numbers[actualIndex] != 0) index--;
+        actualIndex++;
     }
     
-    return actualIndex;
+    return actualIndex - 1;
 }
 
 int use(UnusedNumberList * self, int abstractedIndex) {
-    int actualIndex = get_used_number_index(self, abstractedIndex);
-    int number = self->_numbers[actualIndex];
-    self->_usedNumbers[actualIndex] = number;
-    self->numbersLength--;
+    // printf("Getting index: %d", abstractedIndex);
+    int actualIndex = get_number_index(self, abstractedIndex);
+    // printf(", actual index: %d", actualIndex);
 
+    int number = self->_numbers[actualIndex];
+    self->numbersLength--;
+    self->_numbers[actualIndex] = 0;
+
+    // printf(", returned: %d\n", number);
     return number;
 }
 

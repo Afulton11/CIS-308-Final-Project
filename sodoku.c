@@ -61,7 +61,7 @@ int main(int argc, char *args[]) {
         FILE *output_fp = fopen(outputFilename, "w");
 
         // initialize random functions with a random seed
-        srand(time(0) + (int) outputFilename);
+        srand(time(0));
 
         SudokuBoard *SudokuBoard = create_generator()->generate(solver);
 
@@ -72,31 +72,25 @@ int main(int argc, char *args[]) {
     }
 }
 
+int solveNext(SudokuBoard * board, int row, int column) {
+    if (column == BOARD_SIZE - 1) {
+        if (solver(board, row + 1, 0)) return TRUE;
+    } else {
+        if (solver(board, row, column + 1)) return TRUE;
+    }
+
+    return FALSE;
+}
+
 int solver(SudokuBoard * board, int row, int column) {
-    int nextNum = 1;
-    if (BOARD_SIZE == row) {
-        return TRUE;
-    }
-    if (board->board[row][column]) {
+    if (BOARD_SIZE == row) return TRUE;
+    if (board->board[row][column]) return solveNext(board, row, column);
 
-        if (column == BOARD_SIZE - 1) {
-            if (solver(board, row + 1, 0)) return TRUE;
-        } else {
-            if (solver(board, row, column + 1)) return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    for (; nextNum < 10; nextNum++) {
+    for (int nextNum = 1; nextNum < 10; nextNum++) {
         if(isValid(nextNum, board, row, column)) {
             board->board[row][column] = nextNum;
-
-            if (column == BOARD_SIZE - 1) {
-                if (solver(board, row + 1, 0)) return TRUE;
-            } else {
-                if (solver(board, row, column + 1)) return TRUE;
-            }
+            
+            if (solveNext(board, row, column)) return TRUE;
 
             board->board[row][column] = BLANK;
         }
@@ -107,7 +101,6 @@ int solver(SudokuBoard * board, int row, int column) {
 
 int isValid(int number, SudokuBoard * board, int row, int column) {
 
-    /* Check for the value in the given row and column */
     if (!verify_Column(number, column, board)) return FALSE;
     if (!verify_row(number, row, board)) return FALSE;
 

@@ -6,14 +6,6 @@
 #define IS_BLANK(number) number == BLANK
 #include <stdio.h>
 
-
-/**
- * 
- * We need 5 user defined types! (enums, structs, unions)
- *  (we have 2)
- * 
- **/ 
-
 typedef enum Boolean {
     FALSE = 0,
     TRUE = 1,

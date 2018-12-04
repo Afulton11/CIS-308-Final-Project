@@ -17,7 +17,7 @@ _DiagnolGeneratorBoard * create_diagnol_generator_board(SudokuBoard * board, int
     _DiagnolGeneratorBoard * diagnolBoard = malloc(sizeof(_DiagnolGeneratorBoard));
 
     diagnolBoard->UnusedNumberList = create_unused_number_list(9);
-    diagnolBoard->miniBoard = create_mini_board(board, position, position);
+    diagnolBoard->miniBoard = create_mini_board(board, position * BOARD_SIZE / 3, position * BOARD_SIZE / 3);
 
     return diagnolBoard;
 }
@@ -33,7 +33,7 @@ void randomize_diagnol(_DiagnolGeneratorBoard * diagnol) {
 
         int row = counter % 3;
         int col = counter / 3;
-        board->board[row][col] = &randomNumber;
+        *(board->board[row][col]) = randomNumber;
 
         counter++;
     }
@@ -50,18 +50,23 @@ SudokuBoard * generate(int (* solver)(SudokuBoard *, int, int)) {
         randomize_diagnol(diagnolBoard);
     }
 
+    // return sudokuBoard;
+
     printf("... Is the generated board solvable? ");
 
     int isSolvable = solver(sudokuBoard, 0, 0);
 
-    printf("%s\n", isSolvable == 0 ? "NO" : "YES");
+    if (!isSolvable) {
+        printf("NO! Attempting a new board!\n");
+        return generate(solver);
+    }
 
-    printf("Removing some digits...\n");
+    printf("YES\n");
 
     // begin removing random digits from the board
     int digitsToRemove = random_number(BOARD_SIZE * 2, BOARD_SIZE * 5);
 
-    printf("Removing %d digits!\n", digitsToRemove);
+    printf("Removing %d digits...\n", digitsToRemove);
 
     while (digitsToRemove > 0) {
         int row = random_number(0, BOARD_SIZE);
